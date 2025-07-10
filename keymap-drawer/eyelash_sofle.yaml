@@ -107,7 +107,7 @@ layers:
   - {t: ']', s: '}'}
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '=', s: +}
-  - LSHIFT(EQUAL)
+  - {t: '`', s: '~'}
   - '&kp_dk_LBRC'
   - '&kp_dk_RBRC'
   - {t: '$$mdi:transfer$$', type: trans}
