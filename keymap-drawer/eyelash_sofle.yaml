@@ -84,7 +84,7 @@ layers:
   - {t: '`', s: '~'}
   - '&kp_dk_LBKT'
   - '&kp_dk_RBKT'
-  - '~'
+  - '&kp_dk_TILDE'
   - {t: '$$mdi:menu-down$$', s: '$$mdi:mouse$$'}
   - HOME
   - PG DN
@@ -107,7 +107,7 @@ layers:
   - {t: ']', s: '}'}
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '=', s: +}
-  - {t: '`', s: '~'}
+  - '&kp_dk_SACUTE'
   - '&kp_dk_LBRC'
   - '&kp_dk_RBRC'
   - {t: '$$mdi:transfer$$', type: trans}
