@@ -193,7 +193,7 @@
             bindings = <
 &kp N1      &kp N2     &kp N3        &kp N4        &kp N5        &kp N6             &kp UP_ARROW              &kp N7        &kp N8       &kp N9      &kp N0           &kp DK_plus     &kp DK_sqt
 &kp ESC     &kp Q      &kp W         &kp E         &kp R         &kp T              &kp DOWN_ARROW            &kp Y         &kp U        &kp I       &kp O            &kp P           &kp LBKT
-&kp TAB     &kp A      &mt LALT S    &mt LGUI D    &mt LSHIFT F  &kp G              &kp LEFT_ARROW            &kp H  &mt RSHIFT J   &mt RGUI K  &mt RALT L            &kp SEMI        &kp SQT
+&kp TAB     &kp A      &mt LALT S    &mt LGUI D    &mt LSHIFT F  &kp G              &kp LEFT_ARROW            &kp H         &mt RSHIFT J &mt RGUI K  &mt RALT L       &kp SEMI        &kp SQT
 &kp CAPS    &kp Z      &kp X         &kp C         &kp V         &kp B              &kp RIGHT_ARROW           &kp N         &kp M        &kp COMMA   &kp DOT          &kp DK_minus    &kp LSHIFT
 &kp C_MUTE  &kp K_APP  &kp PSCRN     &mo 2         &kp LCTRL     &kp ENTER          &kp ENTER                 &kp BSPC      &kp SPACE    &mo 1       &kp DELETE       &kp RALT
             >;
@@ -205,9 +205,9 @@
         layer_1 {
             bindings = <
 &kp F1      &kp F2           &kp F3           &kp F4          &kp F5           &kp F6             &mmv MOVE_UP     &kp F7           &kp F8           &kp F9      &kp F10    &kp F11           &kp F12
-&trans      &kp DK_dllr      &kp_dk_LBKT      &kp_dk_RBKT     &mkp RCLK        &mkp MB4           &mmv MOVE_DOWN   &kp PG_UP        &kp END          &kp UP      &kp HOME   &kp MINUS         &kp EQUAL
-&trans      &kp TILDE        &kp DK_lpar      &kp DK_rpar     &trans           &mkp MB5           &mmv MOVE_LEFT   &kp PG_DN        &kp LEFT         &kp DOWN    &kp RIGHT  &kp LEFT_BRACKET  &kp RIGHT_BRACKET
-&trans      &rgb_ug RGB_OFF  &rgb_ug RGB_ON  &rgb_ug RGB_EFF  &rgb_ug RGB_EFR  &rgb_ug RGB_SPI    &mmv MOVE_RIGHT  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &kp INSERT  &kp F11    &kp F12           &trans
+&trans      &kp AT           &kp DK_dllr      &kp_dk_LBKT      &kp_dk_RBKT     &mkp RCLK          &mmv MOVE_DOWN   &kp PG_UP        &kp END          &kp UP      &kp HOME   &kp MINUS         &kp EQUAL
+&trans      &kp_dk_BLSH      &kp DK_flsh      &kp DK_lpar      &kp DK_rpar     &trans             &mmv MOVE_LEFT   &kp PG_DN        &kp LEFT         &kp DOWN    &kp RIGHT  &kp LEFT_BRACKET  &kp RIGHT_BRACKET
+&trans      &rgb_ug RGB_OFF  &rgb_ug RGB_ON   &kp_dk_LBRC      &kp_dk_RBRC     &rgb_ug RGB_EFR    &mmv MOVE_RIGHT  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &kp INSERT  &kp F11    &kp F12           &trans
 &kp C_MUTE  &trans           &trans          &trans           &trans           &trans             &mkp LCLK        &trans           &trans           &trans      &trans     &trans
             >;
 
