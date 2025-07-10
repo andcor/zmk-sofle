@@ -1,6 +1,6 @@
 layout: {zmk_keyboard: eyelash_sofle}
 layers:
-  LAYER0:
+  keyboard:
   - {t: '1', s: '!'}
   - {t: '2', s: '@'}
   - {t: '3', s: '#'}
@@ -62,10 +62,10 @@ layers:
   - {t: '$$mdi:keyboard-return$$', type: enter}
   - {t: '$$mdi:backspace$$', type: backspace}
   - $$mdi:keyboard-space$$
-  - layer1
+  - symbols
   - $$mdi:backspace-reverse-outline$$
   - $$mdi:apple-keyboard-option$$
-  layer1:
+  symbols:
   - F1
   - F2
   - F3
@@ -84,12 +84,12 @@ layers:
   - {t: '`', s: '~'}
   - '&kp_dk_LBKT'
   - '&kp_dk_RBKT'
-  - $$mdi:mouse-right-click-outline$$
+  - '~'
   - {t: '$$mdi:menu-down$$', s: '$$mdi:mouse$$'}
+  - HOME
+  - PG DN
   - PG UP
   - END
-  - $$mdi:arrow-up-bold$$
-  - HOME
   - {t: '-', s: _}
   - {t: '=', s: +}
   - {t: '$$mdi:transfer$$', type: trans}
@@ -97,20 +97,20 @@ layers:
   - '&'
   - '*'
   - (
-  - {t: '$$mdi:transfer$$', type: trans}
+  - '&kp_dk_PIPE'
   - {t: '$$mdi:menu-left$$', s: '$$mdi:mouse$$'}
-  - PG DN
   - $$mdi:arrow-left-bold$$
   - $$mdi:arrow-down-bold$$
+  - $$mdi:arrow-up-bold$$
   - $$mdi:arrow-right-bold$$
   - {t: '[', s: '{'}
   - {t: ']', s: '}'}
   - {t: '$$mdi:transfer$$', type: trans}
-  - RGB OFF
-  - RGB ON
+  - {t: '=', s: +}
+  - LSHIFT(EQUAL)
   - '&kp_dk_LBRC'
   - '&kp_dk_RBRC'
-  - RGB EFR
+  - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:menu-right$$', s: '$$mdi:mouse$$'}
   - RGB BRI
   - RGB BRD
