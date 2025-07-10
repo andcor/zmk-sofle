@@ -209,6 +209,26 @@
                 , <&macro_release &kp LGUI>
                 ;
         };
+        kp_dk_AT: kp_dk_AT { // this is a macro for writting "_" on danish keyboards.
+            label = "kp_dk_AT";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp RALT>
+                , <&macro_tap &kp N2>
+                , <&macro_release &kp RALT>
+                ;
+        };
+        kp_dk_DLLR: KP_DK_DLLR { // this is a macro for writting "_" on danish keyboards.
+            label = "kp_dk_DLLR";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp RALT>
+                , <&macro_tap &kp N4>
+                , <&macro_release &kp RALT>
+                ;
+        };
 
     };
     behaviors {
@@ -241,7 +261,7 @@
         layer_1 {
             bindings = <
 &kp F1      &kp F2           &kp F3           &kp F4          &kp F5           &kp F6             &mmv MOVE_UP     &kp F7           &kp F8           &kp F9      &kp F10    &kp F11           &kp F12
-&trans      &kp AT           &kp DK_dllr      &kp_dk_LBKT      &kp_dk_RBKT     &kp_dk_TILDE       &mmv MOVE_DOWN   &kp HOME         &kp PG_DN        &kp PG_UP   &kp END   &kp MINUS         &kp EQUAL
+&trans      &kp_dk_AT        &kp_dk_DLLR      &kp_dk_LBKT      &kp_dk_RBKT     &kp_dk_TILDE       &mmv MOVE_DOWN   &kp HOME         &kp PG_DN        &kp PG_UP   &kp END   &kp MINUS         &kp EQUAL
 &trans      &kp_dk_BLSH      &kp DK_flsh      &kp DK_lpar      &kp DK_rpar     &kp_dk_PIPE        &mmv MOVE_LEFT   &kp LEFT         &kp DOWN         &kp UP      &kp RIGHT  &kp LEFT_BRACKET  &kp RIGHT_BRACKET
 &trans      &kp EQUAL        &kp_dk_SACUTE    &kp_dk_LBRC     &kp_dk_RBRC     &trans              &mmv MOVE_RIGHT  &kp_dk_GTHAN     &kp NUBS         &kp INSERT  &kp F11    &kp F12           &trans
 &kp C_MUTE  &trans           &trans          &trans           &trans           &trans             &mkp LCLK        &trans           &trans           &trans      &trans     &trans
@@ -257,7 +277,7 @@
 &sys_reset    &bt BT_CLR       &bt BT_CLR_ALL  &trans           &trans        &trans                         &mmv MOVE_DOWN           &trans  &kp N7     &kp N8      &kp N9     &kp UNDER    &sys_reset
 &soft_off     &out OUT_USB     &out OUT_BLE    &trans           &trans        &trans                         &mmv MOVE_LEFT           &trans  &kp N4     &kp N5      &kp N6     &kp LBRC     &soft_off
 &bootloader   &rgb_ug RGB_OFF  &rgb_ug RGB_ON  &rgb_ug RGB_EFF  &rgb_ug RGB_EFR  &rgb_ug RGB_SPI             &mmv MOVE_RIGHT          &trans  &kp N1     &kp N2      &kp N3     &bootloader  &bootloader
-&trans        &trans           &trans          &trans           &trans        &trans                         &mkp LCLK                &trans  &kp DOT    &kp N0      &kp COMMA  &trans
+&trans        &trans           &trans          &trans           &trans        &trans                         &mkp LCLK                &trans  &kp DOT  &kp N0      &trans     &trans
             >;
 
             sensor-bindings = <&scroll_encoder>;

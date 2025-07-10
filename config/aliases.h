@@ -10,4 +10,3 @@
 #define DK_flsh AMPS
 #define DK_sqt BACKSLASH 
 #define DK_dqt AT
-#define DK_dllr GRAVE
