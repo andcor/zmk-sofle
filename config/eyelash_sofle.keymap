@@ -253,11 +253,11 @@
 
         layer_2 {
             bindings = <
-&bt BT_SEL 0  &bt BT_SEL 1    &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &bt BT_CLR                     &mmv MOVE_UP     &kp F6  &kp F7  &kp F8      &kp F9     &kp F10      &trans
-&trans     &bt BT_CLR    &bt BT_CLR_ALL  &trans        &trans        &trans                            &mmv MOVE_DOWN   &trans  &trans  &kp F11     &kp F12    &kp UNDER    &kp PLUS
-&trans     &out OUT_USB  &out OUT_BLE    &trans        &trans        &trans                            &mmv MOVE_LEFT   &trans  &trans  &trans      &trans     &kp LBRC     &kp RBRC
-&trans     &rgb_ug RGB_OFF  &rgb_ug RGB_ON  &rgb_ug RGB_EFF  &rgb_ug RGB_EFR  &rgb_ug RGB_SPI          &mmv MOVE_RIGHT  &trans  &trans  &sys_reset  &soft_off  &bootloader  &trans
-&trans     &trans        &trans          &trans        &trans        &trans                            &mkp LCLK        &trans  &trans  &trans      &trans     &trans
+&bt BT_SEL 0  &bt BT_SEL 1     &bt BT_SEL 2    &bt BT_SEL 3     &bt BT_SEL 4  &bt BT_CLR                     &mmv MOVE_UP             &kp F6  &kp F7     &kp F8      &kp F9     &kp F10      &trans
+&sys_reset    &bt BT_CLR       &bt BT_CLR_ALL  &trans           &trans        &trans                         &mmv MOVE_DOWN           &trans  &kp N7     &kp N8      &kp N9     &kp UNDER    &sys_reset
+&soft_off     &out OUT_USB     &out OUT_BLE    &trans           &trans        &trans                         &mmv MOVE_LEFT           &trans  &kp N4     &kp N5      &kp N6     &kp LBRC     &soft_off
+&bootloader   &rgb_ug RGB_OFF  &rgb_ug RGB_ON  &rgb_ug RGB_EFF  &rgb_ug RGB_EFR  &rgb_ug RGB_SPI             &mmv MOVE_RIGHT          &trans  &kp N1     &kp N2      &kp N3     &bootloader  &bootloader
+&trans        &trans           &trans          &trans           &trans        &trans                         &mkp LCLK                &trans  &kp DOT    &kp N0      &kp COMMA  &trans
             >;
 
             sensor-bindings = <&scroll_encoder>;
