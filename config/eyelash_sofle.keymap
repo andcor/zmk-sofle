@@ -145,7 +145,7 @@
             #binding-cells = <0>;
             bindings
                 = <&macro_press &kp RSHIFT>
-                , <&macro_tap &kp EQUALt>
+                , <&macro_tap &kp EQUAL>
                 , <&macro_release &kp RSHIFT>
                 ;
         };
