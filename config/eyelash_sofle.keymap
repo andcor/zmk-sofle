@@ -151,8 +151,6 @@
         };
         kp_dk_UNDER: kp_dk_UNDER { // this is a macro for writting "_" on danish keyboards.
             label = "kp_dk_UNDER";
-        kp_dk_UNDER: kp_dk_UNDER { // this is a macro for writting "_" on danish keyboards.
-            label = "kp_dk_UNDER";
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings
