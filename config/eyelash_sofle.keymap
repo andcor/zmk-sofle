@@ -241,7 +241,7 @@
         layer_1 {
             bindings = <
 &kp F1      &kp F2           &kp F3           &kp F4          &kp F5           &kp F6             &mmv MOVE_UP     &kp F7           &kp F8           &kp F9      &kp F10    &kp F11           &kp F12
-&trans      &kp AT           &kp DK_dllr      &kp_dk_LBKT      &kp_dk_RBKT     &kp_dk_TILDE       &mmv MOVE_DOWN   &kp HOME         &kp PG_DN        &kp PG_UP   &kp END   &kp MINUS         &kp EQUAL
+&trans      &kp AT           &kp DK_dllr      &kp_dk_LBKT      &kp_dk_RBKT     &kp RIGHT_BRACE       &mmv MOVE_DOWN   &kp HOME         &kp PG_DN        &kp PG_UP   &kp END   &kp MINUS         &kp EQUAL
 &trans      &kp_dk_BLSH      &kp DK_flsh      &kp DK_lpar      &kp DK_rpar     &kp_dk_PIPE        &mmv MOVE_LEFT   &kp LEFT         &kp DOWN         &kp UP      &kp RIGHT  &kp LEFT_BRACKET  &kp RIGHT_BRACKET
 &trans      &kp EQUAL        &kp_dk_SACUTE    &kp_dk_LBRC     &kp_dk_RBRC     &trans              &mmv MOVE_RIGHT  &kp_dk_GTHAN     &kp NUBS         &kp INSERT  &kp F11    &kp F12           &trans
 &kp C_MUTE  &trans           &trans          &trans           &trans           &trans             &mkp LCLK        &trans           &trans           &trans      &trans     &trans
