@@ -80,11 +80,11 @@ layers:
   - F11
   - F12
   - {t: '$$mdi:transfer$$', type: trans}
+  - '@'
   - {t: '`', s: '~'}
   - '&kp_dk_LBKT'
   - '&kp_dk_RBKT'
   - $$mdi:mouse-right-click-outline$$
-  - '&mkp MB4'
   - {t: '$$mdi:menu-down$$', s: '$$mdi:mouse$$'}
   - PG UP
   - END
@@ -93,11 +93,11 @@ layers:
   - {t: '-', s: _}
   - {t: '=', s: +}
   - {t: '$$mdi:transfer$$', type: trans}
-  - '~'
+  - '&kp_dk_BLSH'
+  - '&'
   - '*'
   - (
   - {t: '$$mdi:transfer$$', type: trans}
-  - '&mkp MB5'
   - {t: '$$mdi:menu-left$$', s: '$$mdi:mouse$$'}
   - PG DN
   - $$mdi:arrow-left-bold$$
@@ -108,9 +108,9 @@ layers:
   - {t: '$$mdi:transfer$$', type: trans}
   - RGB OFF
   - RGB ON
-  - RGB EFF
+  - '&kp_dk_LBRC'
+  - '&kp_dk_RBRC'
   - RGB EFR
-  - RGB SPI
   - {t: '$$mdi:menu-right$$', s: '$$mdi:mouse$$'}
   - RGB BRI
   - RGB BRD
