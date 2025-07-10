@@ -186,10 +186,10 @@
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "hold-preferred";
-            tapping-term-ms = <200>;
+            tapping-term-ms = <400>;
             bindings = <&kp>, <&kp>;
             display-name = "Mod-Tap";
-            quick-tap-ms = <150>;
+            quick-tap-ms = <250>;
         };
     };
     keymap {
@@ -205,19 +205,19 @@
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOL_DN>;
-            display-name = "LAYER0";
+            display-name = "keyboard";
         };
 
         layer_1 {
             bindings = <
 &kp F1      &kp F2           &kp F3           &kp F4          &kp F5           &kp F6             &mmv MOVE_UP     &kp F7           &kp F8           &kp F9      &kp F10    &kp F11           &kp F12
-&trans      &kp AT           &kp DK_dllr      &kp_dk_LBKT      &kp_dk_RBKT     &mkp RCLK          &mmv MOVE_DOWN   &kp PG_UP        &kp END          &kp UP      &kp HOME   &kp MINUS         &kp EQUAL
-&trans      &kp_dk_BLSH      &kp DK_flsh      &kp DK_lpar      &kp DK_rpar     &trans             &mmv MOVE_LEFT   &kp PG_DN        &kp LEFT         &kp DOWN    &kp RIGHT  &kp LEFT_BRACKET  &kp RIGHT_BRACKET
-&trans      &rgb_ug RGB_OFF  &rgb_ug RGB_ON   &kp_dk_LBRC      &kp_dk_RBRC     &rgb_ug RGB_EFR    &mmv MOVE_RIGHT  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &kp INSERT  &kp F11    &kp F12           &trans
+&trans      &kp AT           &kp DK_dllr      &kp_dk_LBKT      &kp_dk_RBKT     &kp TILDE          &mmv MOVE_DOWN   &kp HOME         &kp PG_DN        &kp PG_UP   &kp END   &kp MINUS         &kp EQUAL
+&trans      &kp_dk_BLSH      &kp DK_flsh      &kp DK_lpar      &kp DK_rpar     &kp_dk_PIPE        &mmv MOVE_LEFT   &kp LEFT         &kp DOWN         &kp UP      &kp RIGHT  &kp LEFT_BRACKET  &kp RIGHT_BRACKET
+&trans      &kp EQUAL        &kp LSHIFT(EQUAL) &kp_dk_LBRC     &kp_dk_RBRC     &trans             &mmv MOVE_RIGHT  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &kp INSERT  &kp F11    &kp F12           &trans
 &kp C_MUTE  &trans           &trans          &trans           &trans           &trans             &mkp LCLK        &trans           &trans           &trans      &trans     &trans
             >;
 
-            display-name = "layer1";
+            display-name = "symbols";
             sensor-bindings = <&scroll_encoder>;
         };
 
