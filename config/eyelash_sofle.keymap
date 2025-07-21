@@ -240,6 +240,7 @@
             bindings = <&kp>, <&kp>;
             display-name = "Mod-Tap";
             quick-tap-ms = <145>;
+            require-prior-idle-ms = <125>;
         };
     };
     keymap {
