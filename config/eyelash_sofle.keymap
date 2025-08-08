@@ -255,6 +255,7 @@
             bindings = <&kp>, <&kp>;
             display-name = "Mod-Tap";
             hold-trigger-key-positions = <KEYS_R THUMBS>;
+            hold-trigger-on-release;
         };
       hmr: mod_tap {
             compatible = "zmk,behavior-hold-tap";
@@ -265,6 +266,7 @@
             bindings = <&kp>, <&kp>;
             display-name = "Mod-Tap";
             hold-trigger-key-positions = <KEYS_L THUMBS>;
+            hold-trigger-on-release;
         };
     };
     keymap {
