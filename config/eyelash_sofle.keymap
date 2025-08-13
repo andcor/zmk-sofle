@@ -251,7 +251,7 @@
             flavor = "balanced";
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <50>;
             bindings = <&kp>, <&kp>;
             display-name = "Mod-Tap";
             hold-trigger-key-positions = <KEYS_R THUMBS>;
@@ -262,7 +262,7 @@
             flavor = "balanced";
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <50>;
             bindings = <&kp>, <&kp>;
             display-name = "Mod-Tap";
             hold-trigger-key-positions = <KEYS_L THUMBS>;
