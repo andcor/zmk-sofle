@@ -248,10 +248,10 @@
         };
       hml: mod_tap {
             compatible = "zmk,behavior-hold-tap";
-            flavor = "balanced";
-            tapping-term-ms = <200>;
-            quick-tap-ms = <175>;
-            require-prior-idle-ms = <50>;
+            flavor = "tap-preffered";
+            tapping-term-ms = <150>;
+            quick-tap-ms = <145>;
+            require-prior-idle-ms = <120>;
             bindings = <&kp>, <&kp>;
             display-name = "Mod-Tap";
             hold-trigger-key-positions = <KEYS_R THUMBS>;
@@ -259,10 +259,10 @@
         };
       hmr: mod_tap {
             compatible = "zmk,behavior-hold-tap";
-            flavor = "balanced";
-            tapping-term-ms = <200>;
-            quick-tap-ms = <175>;
-            require-prior-idle-ms = <50>;
+            flavor = "tap-preffered";
+            tapping-term-ms = <150>;
+            quick-tap-ms = <145>;
+            require-prior-idle-ms = <120>;
             bindings = <&kp>, <&kp>;
             display-name = "Mod-Tap";
             hold-trigger-key-positions = <KEYS_L THUMBS>;
