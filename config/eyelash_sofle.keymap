@@ -248,7 +248,7 @@
         };
       hml: mod_tap {
             compatible = "zmk,behavior-hold-tap";
-            flavor = "tap-preffered";
+            flavor = "tap-preferred";
             tapping-term-ms = <150>;
             quick-tap-ms = <145>;
             require-prior-idle-ms = <120>;
@@ -259,7 +259,7 @@
         };
       hmr: mod_tap {
             compatible = "zmk,behavior-hold-tap";
-            flavor = "tap-preffered";
+            flavor = "tap-preferred";
             tapping-term-ms = <150>;
             quick-tap-ms = <145>;
             require-prior-idle-ms = <120>;
