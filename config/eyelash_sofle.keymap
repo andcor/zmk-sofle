@@ -34,7 +34,7 @@
 #define KEYS_R RN5 RN4 RN3 RN2 RN1 RN0 RT5 RT4 RT3 RT2 RT1 RT0 RM5 RM4 RM3 RM2 RM1 RM0 RB5 RB4 RB3 RB2 RB1 RB0
 #define THUMBS LH4 LH3 LH2 LH1 LH0 RH0 RH1 RH2 RH3 RH4
 #define HM_TAPPING_TERM 300
-#define HM_TAPPING_TERM_FAST 150
+#define HM_TAPPING_TERM_FAST 100
 #define HM_PRIOR_IDLE 150
 #define HM_PRIOR_IDLE_FAST 75
 
@@ -309,16 +309,6 @@
 
             hold-trigger-key-positions = <KEYS_L THUMBS>;
             // hold-trigger-on-release;
-        };
-      mt: mod_tap {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "tap-preferred";
-            tapping-term-ms = <150>;
-            bindings = <&kp>, <&kp>;
-            display-name = "Mod-Tap";
-            quick-tap-ms = <145>;
-            require-prior-idle-ms = <125>;
         };
       hml: mod_tap {
             compatible = "zmk,behavior-hold-tap";
