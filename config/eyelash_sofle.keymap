@@ -294,7 +294,7 @@
             require-prior-idle-ms = <HM_PRIOR_IDLE_FAST>;
 
             hold-trigger-key-positions = <KEYS_R THUMBS>;
-            // hold-trigger-on-release;
+            hold-trigger-on-release;
         };
 
         hm_shift_r: hm_shift_r {
@@ -308,7 +308,7 @@
             require-prior-idle-ms = <HM_PRIOR_IDLE_FAST>;
 
             hold-trigger-key-positions = <KEYS_L THUMBS>;
-            // hold-trigger-on-release;
+            hold-trigger-on-release;
         };
       hml: mod_tap {
             compatible = "zmk,behavior-hold-tap";
