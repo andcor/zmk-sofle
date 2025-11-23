@@ -32,8 +32,8 @@ echo -e "${GREEN}✓ Sudo access granted${NC}\n"
 # Step 1: Wait for GitHub Actions build to complete
 echo -e "${YELLOW}[1/5] Checking GitHub Actions build status...${NC}"
 
-# Get the latest workflow run
-LATEST_RUN=$(gh run list --limit 1 --json databaseId,status,conclusion --jq '.[0]')
+# Get the latest workflow run from the build workflow
+LATEST_RUN=$(gh run list --workflow "Build ZMK firmware" --limit 1 --json databaseId,status,conclusion --jq '.[0]')
 
 if [ -z "$LATEST_RUN" ]; then
     echo -e "${RED}Error: No workflow runs found${NC}"
