@@ -5,8 +5,8 @@
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/ext_power.h>
 #include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/outputs.h>
@@ -37,13 +37,14 @@
 #define HM_TAPPING_TERM_FAST 150
 #define HM_PRIOR_IDLE 300
 #define HM_PRIOR_IDLE_FAST 200
+&soft_off { hold-time-ms = <2000>; };
 
 / {
-
     scroll_encoder: scroll_encoder {
         compatible = "zmk,behavior-sensor-rotate";
         #sensor-binding-cells = <0>;
         bindings = <&msc SCRL_DOWN>, <&msc SCRL_UP>;
+
         tap-ms = <100>;
     };
     macros {
@@ -371,6 +372,7 @@
 &trans        &trans           &trans          &trans           &trans        &trans                         &mkp LCLK                &trans  &trans     &kp DOT  &kp N0      &kp COMMA
             >;
 
+            display-name = "layer2";
             sensor-bindings = <&scroll_encoder>;
         };
 
@@ -382,6 +384,24 @@
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
             >;
+
+            display-name = "layer3";
+            sensor-bindings = <&scroll_encoder>;
+        };
+
+        layer_4 {
+            bindings = <
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+            >;
+
+            display-name = "layer4";
+            sensor-bindings = <&scroll_encoder>;
         };
     };
 };
+
+
