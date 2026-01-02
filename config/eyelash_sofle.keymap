@@ -36,7 +36,7 @@
 #define HM_TAPPING_TERM 300
 #define HM_TAPPING_TERM_FAST 150
 #define HM_PRIOR_IDLE 300
-#define HM_PRIOR_IDLE_FAST 200
+#define HM_PRIOR_IDLE_FAST 150
 &soft_off { hold-time-ms = <2000>; };
 
 / {
