@@ -57,6 +57,7 @@ config NICE_VIEW_GEM_PERIPHERAL_CENTRAL_RELAY
 
 config NICE_VIEW_WIDGET_INVERTED
     bool "Invert display colors"
+    default y
 
 if !ZMK_SPLIT || ZMK_SPLIT_ROLE_CENTRAL
 
