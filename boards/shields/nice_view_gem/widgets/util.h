@@ -40,6 +40,8 @@ struct status_state {
     int active_profile_index;
     uint8_t layer_index;
     const char *layer_label;
+    uint8_t hid_indicators;
+    uint8_t mods;
 #endif
 #endif
 };

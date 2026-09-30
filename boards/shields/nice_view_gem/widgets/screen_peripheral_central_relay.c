@@ -42,9 +42,6 @@ LV_IMG_DECLARE(bt);
 LV_IMG_DECLARE(usb);
 LV_IMG_DECLARE(bolt);
 LV_IMG_DECLARE(profiles);
-LV_IMG_DECLARE(middle_art_rotated);
-
-#define MIDDLE_ART_DISPLAY_WIDTH 25
 
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
@@ -153,6 +150,50 @@ static void draw_profiles_no_active(lv_obj_t *canvas) {
     /* No active dot drawn — all dots appear inactive */
 }
 
+/* --- MIDDLE: caps lock badge and modifier row --- */
+
+#define CAPS_LOCK_BIT BIT(1)
+#define MOD_CELL_WIDTH 16
+
+static void draw_caps_lock(lv_obj_t *canvas, const struct status_state *state) {
+    if (!(state->hid_indicators & CAPS_LOCK_BIT)) {
+        return;
+    }
+
+    lv_draw_rect_dsc_t rect_dsc;
+    init_rect_dsc(&rect_dsc, LVGL_FOREGROUND);
+    lv_canvas_draw_rect(canvas, 14, 52 + BUFFER_OFFSET_MIDDLE, 40, 15, &rect_dsc);
+
+    lv_draw_label_dsc_t label_dsc;
+    init_label_dsc(&label_dsc, LVGL_BACKGROUND, &pixel_operator_mono, LV_TEXT_ALIGN_CENTER);
+    lv_canvas_draw_text(canvas, 14, 53 + BUFFER_OFFSET_MIDDLE, 40, &label_dsc, "CAPS");
+}
+
+static void draw_mods(lv_obj_t *canvas, const struct status_state *state) {
+    static const char *labels[] = {"C", "S", "A", "G"};
+    /* Merge right-hand mods (upper nibble) into left-hand bits */
+    uint8_t mods = (state->mods | (state->mods >> 4)) & 0x0F;
+
+    lv_draw_rect_dsc_t rect_dsc;
+    init_rect_dsc(&rect_dsc, LVGL_FOREGROUND);
+
+    for (int i = 0; i < 4; i++) {
+        int x = 2 + i * MOD_CELL_WIDTH;
+        bool active = mods & BIT(i);
+
+        if (active) {
+            lv_canvas_draw_rect(canvas, x, 80 + BUFFER_OFFSET_MIDDLE, MOD_CELL_WIDTH - 2, 15,
+                                &rect_dsc);
+        }
+
+        lv_draw_label_dsc_t label_dsc;
+        init_label_dsc(&label_dsc, active ? LVGL_BACKGROUND : LVGL_FOREGROUND,
+                       &pixel_operator_mono, LV_TEXT_ALIGN_CENTER);
+        lv_canvas_draw_text(canvas, x, 81 + BUFFER_OFFSET_MIDDLE, MOD_CELL_WIDTH - 2, &label_dsc,
+                            labels[i]);
+    }
+}
+
 /*
  * ============================================================
  * Draw buffers
@@ -169,6 +210,18 @@ static void draw_top(lv_obj_t *widget, lv_color_t cbuf[], const struct status_st
 
     /* Right column: central relay status */
     draw_central_relay_conn_icon(canvas, state);
+
+    rotate_canvas(canvas, cbuf);
+}
+
+static void draw_middle(lv_obj_t *widget, lv_color_t cbuf[], const struct status_state *state) {
+    lv_obj_t *canvas = lv_obj_get_child(widget, 1);
+    fill_background(canvas);
+
+    if (state->connected && state->central_relay_received) {
+        draw_caps_lock(canvas, state);
+        draw_mods(canvas, state);
+    }
 
     rotate_canvas(canvas, cbuf);
 }
@@ -251,6 +304,7 @@ static void set_connection_status(struct zmk_widget_screen *widget,
     }
 
     draw_top(widget->obj, widget->cbuf, &widget->state);
+    draw_middle(widget->obj, widget->cbuf2, &widget->state);
     draw_bottom(widget->obj, widget->cbuf3, &widget->state);
 }
 
@@ -278,6 +332,8 @@ struct central_relay_state {
     int profile_index;
     uint8_t layer_index;
     const char *layer_label;
+    uint8_t hid_indicators;
+    uint8_t mods;
 };
 
 static void set_central_relay_status(struct zmk_widget_screen *widget,
@@ -293,8 +349,11 @@ static void set_central_relay_status(struct zmk_widget_screen *widget,
     widget->state.active_profile_index = state.profile_index;
     widget->state.layer_index = state.layer_index;
     widget->state.layer_label = state.layer_label;
+    widget->state.hid_indicators = state.hid_indicators;
+    widget->state.mods = state.mods;
 
     draw_top(widget->obj, widget->cbuf, &widget->state);
+    draw_middle(widget->obj, widget->cbuf2, &widget->state);
     draw_bottom(widget->obj, widget->cbuf3, &widget->state);
 }
 
@@ -316,6 +375,8 @@ static struct central_relay_state central_relay_get_state(const zmk_event_t *_eh
         .profile_index = csr_cache_get_active_profile(),
         .layer_index = csr_cache_get_active_layer(),
         .layer_label = csr_cache_get_layer_name(),
+        .hid_indicators = csr_cache_get_hid_indicators(),
+        .mods = csr_cache_get_mods(),
     };
 }
 
@@ -340,18 +401,10 @@ int zmk_widget_screen_init(struct zmk_widget_screen *widget, lv_obj_t *parent) {
     lv_obj_t *middle = lv_canvas_create(widget->obj);
     lv_obj_align(middle, LV_ALIGN_TOP_RIGHT, BUFFER_OFFSET_MIDDLE, 0);
     lv_canvas_set_buffer(middle, widget->cbuf2, BUFFER_SIZE, BUFFER_SIZE, LV_IMG_CF_TRUE_COLOR);
-    /* Fill middle canvas once — reserved for future use, no redraw needed */
-    fill_background(middle);
-    rotate_canvas(middle, widget->cbuf2);
 
     lv_obj_t *bottom = lv_canvas_create(widget->obj);
     lv_obj_align(bottom, LV_ALIGN_TOP_RIGHT, BUFFER_OFFSET_BOTTOM, 0);
     lv_canvas_set_buffer(bottom, widget->cbuf3, BUFFER_SIZE, BUFFER_SIZE, LV_IMG_CF_TRUE_COLOR);
-
-    lv_obj_t *middle_art_obj = lv_img_create(widget->obj);
-    lv_img_set_src(middle_art_obj, &middle_art_rotated);
-    lv_obj_align(middle_art_obj, LV_ALIGN_TOP_LEFT,
-                 (SCREEN_HEIGHT - MIDDLE_ART_DISPLAY_WIDTH) / 2, 0);
 
     sys_slist_append(&widgets, &widget->node);
     widget_battery_status_init();
