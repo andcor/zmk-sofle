@@ -36,6 +36,7 @@ struct status_state {
     bool central_relay_connected;
     bool central_relay_bonded;
     bool central_relay_usb;
+    bool central_relay_caps_word;
     /* Profile/layer from central relay — standard names for draw_profile_status/draw_layer_status reuse */
     int active_profile_index;
     uint8_t layer_index;

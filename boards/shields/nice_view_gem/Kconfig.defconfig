@@ -54,6 +54,7 @@ config NICE_VIEW_GEM_PERIPHERAL_CENTRAL_RELAY
     bool "Show central relay data on peripheral display"
     default y
     depends on ZMK_CENTRAL_STATES_RELAY
+    select LV_FONT_MONTSERRAT_28
 
 config NICE_VIEW_WIDGET_INVERTED
     bool "Invert display colors"

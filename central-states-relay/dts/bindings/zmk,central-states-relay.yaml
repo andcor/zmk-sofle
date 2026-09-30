@@ -1,0 +1,11 @@
+# Copyright (c) 2026 Artem Yurov
+# SPDX-License-Identifier: MIT
+
+description: |
+  Enables central-to-peripheral states relay over BLE split link.
+  Transmits device state, HID indicators, battery level, layer info,
+  and modifier state to peripheral halves for display widget consumption.
+
+compatible: "zmk,central-states-relay"
+
+properties: {}

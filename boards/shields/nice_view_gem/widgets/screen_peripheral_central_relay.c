@@ -150,47 +150,58 @@ static void draw_profiles_no_active(lv_obj_t *canvas) {
     /* No active dot drawn — all dots appear inactive */
 }
 
-/* --- MIDDLE: caps lock badge and modifier row --- */
+/* --- TOP: caps lock / caps word badge --- */
 
 #define CAPS_LOCK_BIT BIT(1)
-#define MOD_CELL_WIDTH 16
 
-static void draw_caps_lock(lv_obj_t *canvas, const struct status_state *state) {
-    if (!(state->hid_indicators & CAPS_LOCK_BIT)) {
+static void draw_caps_badge(lv_obj_t *canvas, const struct status_state *state) {
+    const char *text;
+    if (state->hid_indicators & CAPS_LOCK_BIT) {
+        text = "CAPS";
+    } else if (state->central_relay_caps_word) {
+        text = "WORD";
+    } else {
         return;
     }
 
     lv_draw_rect_dsc_t rect_dsc;
     init_rect_dsc(&rect_dsc, LVGL_FOREGROUND);
-    lv_canvas_draw_rect(canvas, 14, 52 + BUFFER_OFFSET_MIDDLE, 40, 15, &rect_dsc);
+    lv_canvas_draw_rect(canvas, 14, 40, 40, 15, &rect_dsc);
 
     lv_draw_label_dsc_t label_dsc;
     init_label_dsc(&label_dsc, LVGL_BACKGROUND, &pixel_operator_mono, LV_TEXT_ALIGN_CENTER);
-    lv_canvas_draw_text(canvas, 14, 53 + BUFFER_OFFSET_MIDDLE, 40, &label_dsc, "CAPS");
+    lv_canvas_draw_text(canvas, 14, 41, 40, &label_dsc, text);
 }
+
+/* --- MIDDLE: 2x2 modifier grid --- */
+
+#define MODS_OFFSET -60
+#define MOD_CELL_SIZE 33
+#define MOD_CELL_PITCH 35
 
 static void draw_mods(lv_obj_t *canvas, const struct status_state *state) {
     static const char *labels[] = {"C", "S", "A", "G"};
     /* Merge right-hand mods (upper nibble) into left-hand bits */
     uint8_t mods = (state->mods | (state->mods >> 4)) & 0x0F;
+    const lv_font_t *font = &lv_font_montserrat_28;
+    int text_y = (MOD_CELL_SIZE - lv_font_get_line_height(font)) / 2;
 
     lv_draw_rect_dsc_t rect_dsc;
     init_rect_dsc(&rect_dsc, LVGL_FOREGROUND);
 
     for (int i = 0; i < 4; i++) {
-        int x = 2 + i * MOD_CELL_WIDTH;
+        int x = (i % 2) * MOD_CELL_PITCH;
+        int y = (i / 2) * MOD_CELL_PITCH;
         bool active = mods & BIT(i);
 
         if (active) {
-            lv_canvas_draw_rect(canvas, x, 80 + BUFFER_OFFSET_MIDDLE, MOD_CELL_WIDTH - 2, 15,
-                                &rect_dsc);
+            lv_canvas_draw_rect(canvas, x, y, MOD_CELL_SIZE, MOD_CELL_SIZE, &rect_dsc);
         }
 
         lv_draw_label_dsc_t label_dsc;
-        init_label_dsc(&label_dsc, active ? LVGL_BACKGROUND : LVGL_FOREGROUND,
-                       &pixel_operator_mono, LV_TEXT_ALIGN_CENTER);
-        lv_canvas_draw_text(canvas, x, 81 + BUFFER_OFFSET_MIDDLE, MOD_CELL_WIDTH - 2, &label_dsc,
-                            labels[i]);
+        init_label_dsc(&label_dsc, active ? LVGL_BACKGROUND : LVGL_FOREGROUND, font,
+                       LV_TEXT_ALIGN_CENTER);
+        lv_canvas_draw_text(canvas, x, y + text_y, MOD_CELL_SIZE, &label_dsc, labels[i]);
     }
 }
 
@@ -211,6 +222,10 @@ static void draw_top(lv_obj_t *widget, lv_color_t cbuf[], const struct status_st
     /* Right column: central relay status */
     draw_central_relay_conn_icon(canvas, state);
 
+    if (state->connected && state->central_relay_received) {
+        draw_caps_badge(canvas, state);
+    }
+
     rotate_canvas(canvas, cbuf);
 }
 
@@ -219,7 +234,6 @@ static void draw_middle(lv_obj_t *widget, lv_color_t cbuf[], const struct status
     fill_background(canvas);
 
     if (state->connected && state->central_relay_received) {
-        draw_caps_lock(canvas, state);
         draw_mods(canvas, state);
     }
 
@@ -334,6 +348,7 @@ struct central_relay_state {
     const char *layer_label;
     uint8_t hid_indicators;
     uint8_t mods;
+    bool caps_word;
 };
 
 static void set_central_relay_status(struct zmk_widget_screen *widget,
@@ -344,6 +359,7 @@ static void set_central_relay_status(struct zmk_widget_screen *widget,
     widget->state.central_relay_connected = state.connected;
     widget->state.central_relay_bonded = state.bonded;
     widget->state.central_relay_usb = state.usb;
+    widget->state.central_relay_caps_word = state.caps_word;
 
     /* Standard names for draw_profile_status/draw_layer_status reuse */
     widget->state.active_profile_index = state.profile_index;
@@ -372,6 +388,7 @@ static struct central_relay_state central_relay_get_state(const zmk_event_t *_eh
         .connected = flags & CSR_FLAG_CONNECTED,
         .bonded = flags & CSR_FLAG_BONDED,
         .usb = flags & CSR_FLAG_USB,
+        .caps_word = flags & CSR_FLAG_CAPS_WORD,
         .profile_index = csr_cache_get_active_profile(),
         .layer_index = csr_cache_get_active_layer(),
         .layer_label = csr_cache_get_layer_name(),
@@ -401,7 +418,7 @@ int zmk_widget_screen_init(struct zmk_widget_screen *widget, lv_obj_t *parent) {
     lv_canvas_set_buffer(top, widget->cbuf, BUFFER_SIZE, BUFFER_SIZE, LV_IMG_CF_TRUE_COLOR);
 
     lv_obj_t *middle = lv_canvas_create(widget->obj);
-    lv_obj_align(middle, LV_ALIGN_TOP_RIGHT, BUFFER_OFFSET_MIDDLE, 0);
+    lv_obj_align(middle, LV_ALIGN_TOP_RIGHT, MODS_OFFSET, 0);
     lv_canvas_set_buffer(middle, widget->cbuf2, BUFFER_SIZE, BUFFER_SIZE, LV_IMG_CF_TRUE_COLOR);
 
     lv_obj_t *bottom = lv_canvas_create(widget->obj);

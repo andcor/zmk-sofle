@@ -1,3 +1,6 @@
 build:
+  cmake: central-states-relay
+  kconfig: central-states-relay/Kconfig
   settings:
      board_root: .
+     dts_root: central-states-relay
