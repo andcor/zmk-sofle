@@ -48,6 +48,16 @@
         tap-ms = <100>;
     };
     macros {
+        // Dead key followed by space so the symbol is typed immediately
+        dead_sp: dead_space {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings
+                = <&macro_param_1to1>
+                , <&macro_tap &kp MACRO_PLACEHOLDER>
+                , <&macro_tap &kp SPACE>
+                ;
+        };
         kp_dk_LBKT: kp_dk_LBKT { // this is a macro for writting "[" on danish keyboards.
             label = "kp_dk_LBKT";
             compatible = "zmk,behavior-macro";
@@ -240,7 +250,22 @@
         };
 
     };
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        adjust_layer {
+            if-layers = <1 2>;
+            then-layer = <3>;
+        };
+    };
+
     behaviors {
+        bspc_del: backspace_delete {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp BSPC>, <&kp DEL>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
         td_caps: tap_dance_caps {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
@@ -346,7 +371,7 @@
 &kp ESC     &kp Q      &kp W         &kp E         &kp R         &kp T              &kp DOWN_ARROW            &kp Y         &kp U        &kp I       &kp O            &kp P           &kp LBKT
 &kp TAB     &kp A      &hm_l LALT S  &hm_l LGUI D  &hm_shift_l LSHIFT F  &kp G              &kp LEFT_ARROW            &kp H         &hm_shift_r RSHIFT J &hm_r RGUI K  &hm_r LALT L       &kp SEMI        &kp SQT
 &td_caps    &kp Z      &kp X         &kp C         &kp V         &kp B              &kp RIGHT_ARROW           &kp N         &kp M        &kp COMMA   &kp DOT          &kp DK_minus    &kp LSHIFT
-&kp C_MUTE  &kp K_APP  &kp PSCRN     &mo 2         &kp LCTRL     &kp ENTER          &kp ENTER                 &kp BSPC      &kp SPACE    &mo 1       &kp DELETE       &kp RALT
+&kp C_MUTE  &kp K_APP  &kp PSCRN     &mo 2         &kp LCTRL     &kp ENTER          &kp ENTER                 &bspc_del     &kp SPACE    &mo 1       &kp DELETE       &kp RALT
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOL_DN>;
@@ -356,9 +381,9 @@
         layer_1 {
             bindings = <
 &kp F1      &kp F2           &kp F3           &kp F4          &kp F5           &kp F6             &mmv MOVE_UP     &kp F7           &kp F8           &kp F9      &kp F10    &kp F11           &kp F12
-&trans      &kp_dk_AT        &kp_dk_DLLR      &kp_dk_LBKT      &kp_dk_RBKT     &kp_dk_TILDE       &mmv MOVE_DOWN   &kp HOME         &kp PG_DN        &kp PG_UP   &kp END   &kp MINUS         &kp EQUAL
+&trans      &kp_dk_AT        &kp_dk_DLLR      &kp_dk_LBKT      &kp_dk_RBKT     &dead_sp RA(RBKT)  &mmv MOVE_DOWN   &kp HOME         &kp PG_DN        &kp PG_UP   &kp END   &kp MINUS         &kp EQUAL
 &trans      &kp_dk_BLSH      &kp DK_flsh      &kp DK_lpar      &kp DK_rpar     &kp_dk_PIPE        &mmv MOVE_LEFT   &kp LEFT         &kp DOWN         &kp UP      &kp RIGHT  &kp LEFT_BRACKET  &kp RIGHT_BRACKET
-&trans      &kp EQUAL        &kp_dk_SACUTE    &kp_dk_LBRC     &kp_dk_RBRC     &trans              &mmv MOVE_RIGHT  &kp NUBS         &kp_dk_GTHAN     &kp INSERT  &kp F11    &kp F12           &trans
+&trans      &dead_sp EQUAL   &dead_sp LS(EQUAL) &kp_dk_LBRC   &kp_dk_RBRC     &dead_sp LS(RBKT)  &mmv MOVE_RIGHT  &kp NUBS         &kp_dk_GTHAN     &kp INSERT  &kp F11    &kp F12           &trans
 &kp C_MUTE  &trans           &trans          &trans           &trans           &trans             &mkp LCLK        &trans           &trans           &trans      &trans     &trans
             >;
 
@@ -368,27 +393,28 @@
 
         layer_2 {
             bindings = <
-&bt BT_SEL 0  &bt BT_SEL 1     &bt BT_SEL 2    &bt BT_SEL 3     &bt BT_SEL 4  &bt BT_CLR                     &mmv MOVE_UP             &kp F6  &kp F7     &kp F8      &kp F9     &kp F10      &trans
-&sys_reset    &bt BT_CLR       &bt BT_CLR_ALL  &trans           &trans        &trans                         &mmv MOVE_DOWN           &trans  &kp N7     &kp N8      &kp N9     &kp UNDER    &sys_reset
-&soft_off     &out OUT_USB     &out OUT_BLE    &trans           &trans        &trans                         &mmv MOVE_LEFT           &trans  &kp N4     &kp N5      &kp N6     &kp LBRC     &soft_off
-&bootloader   &rgb_ug RGB_OFF  &rgb_ug RGB_ON  &rgb_ug RGB_EFF  &rgb_ug RGB_EFR  &rgb_ug RGB_SPI             &mmv MOVE_RIGHT          &trans  &kp N1     &kp N2      &kp N3     &bootloader  &bootloader
+&trans        &trans           &trans          &trans           &trans        &trans                         &mmv MOVE_UP             &kp F6  &kp F7     &kp F8      &kp F9     &kp F10      &trans
+&trans        &trans           &trans          &trans           &trans        &trans                         &mmv MOVE_DOWN           &trans  &kp N7     &kp N8      &kp N9     &kp DK_plus  &trans
+&trans        &trans           &trans          &trans           &trans        &trans                         &mmv MOVE_LEFT           &trans  &kp N4     &kp N5      &kp N6     &kp DK_minus &trans
+&trans        &trans           &trans          &trans           &trans        &trans                         &mmv MOVE_RIGHT          &trans  &kp N1     &kp N2      &kp N3     &kp DK_astrk &trans
 &trans        &trans           &trans          &trans           &trans        &trans                         &mkp LCLK                &trans  &trans     &kp DOT  &kp N0      &kp COMMA
             >;
 
-            display-name = "layer2";
+            display-name = "numpad";
             sensor-bindings = <&scroll_encoder>;
         };
 
+        // Activated by holding both layer keys (see conditional_layers)
         layer_3 {
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&bt BT_SEL 0  &bt BT_SEL 1     &bt BT_SEL 2    &bt BT_SEL 3     &bt BT_SEL 4  &bt BT_CLR                     &trans                   &trans  &trans     &trans      &trans     &trans       &trans
+&sys_reset    &bt BT_CLR       &bt BT_CLR_ALL  &trans           &trans        &trans                         &trans                   &trans  &trans     &trans      &trans     &trans       &sys_reset
+&soft_off     &out OUT_USB     &out OUT_BLE    &trans           &trans        &trans                         &trans                   &trans  &trans     &trans      &trans     &trans       &soft_off
+&bootloader   &rgb_ug RGB_OFF  &rgb_ug RGB_ON  &rgb_ug RGB_EFF  &rgb_ug RGB_EFR  &rgb_ug RGB_SPI             &trans                   &trans  &trans     &trans      &trans     &trans       &bootloader
+&trans        &trans           &trans          &trans           &trans        &trans                         &trans                   &trans  &trans     &trans      &trans     &trans
             >;
 
-            display-name = "layer3";
+            display-name = "adjust";
             sensor-bindings = <&scroll_encoder>;
         };
 
