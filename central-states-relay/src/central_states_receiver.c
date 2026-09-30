@@ -12,6 +12,10 @@
 #include <zephyr/bluetooth/gatt.h>
 #include <zephyr/logging/log.h>
 
+#if IS_ENABLED(CONFIG_INPUT)
+#include <zephyr/input/input.h>
+#endif
+
 #include <zmk/split/central-states/uuid.h>
 #include <zmk/split/central-states/event.h>
 #include <zmk/split/central-states/cache.h>
@@ -54,6 +58,13 @@ static void csr_peripheral_work_cb(struct k_work *work) {
 
     csr_cache_update(&pending_payload);
     raise_zmk_central_states_changed(pending_payload);
+
+#if IS_ENABLED(CONFIG_INPUT)
+    /* Device-less input event only reaches ZMK's activity tracker, keeping this half awake */
+    if (pending_payload.flags & CSR_FLAG_ACTIVE) {
+        input_report(NULL, INPUT_EV_MSC, INPUT_MSC_SCAN, 0, true, K_NO_WAIT);
+    }
+#endif
 }
 
 /* GATT write handler — called from BT RX thread, must be fast */

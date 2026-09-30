@@ -21,6 +21,7 @@
 #define CSR_FLAG_USB        BIT(1)  /* USB output active */
 #define CSR_FLAG_BONDED     BIT(2)  /* BT profile bonded */
 #define CSR_FLAG_CAPS_WORD  BIT(3)  /* caps word active */
+#define CSR_FLAG_ACTIVE     BIT(4)  /* central activity state is active */
 
 struct zmk_central_states_changed {
     uint8_t active_profile;                /* 1 — 0..4 BT profile index */

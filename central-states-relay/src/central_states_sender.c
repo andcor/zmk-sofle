@@ -21,6 +21,8 @@
 #include <zmk/events/hid_indicators_changed.h>
 #include <zmk/events/keycode_state_changed.h>
 #include <zmk/events/position_state_changed.h>
+#include <zmk/events/activity_state_changed.h>
+#include <zmk/activity.h>
 #include <zmk/ble.h>
 #include <zmk/battery.h>
 #include <zmk/keymap.h>
@@ -61,6 +63,7 @@ static struct csr_peripheral_slot *slot_for_conn(struct bt_conn *conn) {
 /* ---- Cached payload ------------------------------------------------------- */
 
 static struct zmk_central_states_changed cached_payload;
+static int64_t csr_last_broadcast;
 
 /* ZMK has no caps word event; behavior_caps_word_data starts with its `active` flag */
 static bool csr_caps_word_active(void) {
@@ -85,6 +88,9 @@ static uint8_t csr_update_flags(void) {
     }
     if (csr_caps_word_active()) {
         flags |= CSR_FLAG_CAPS_WORD;
+    }
+    if (zmk_activity_get_state() == ZMK_ACTIVITY_ACTIVE) {
+        flags |= CSR_FLAG_ACTIVE;
     }
     return flags;
 }
@@ -217,6 +223,7 @@ BT_CONN_CB_DEFINE(csr_conn_callbacks) = {
 /* ---- Broadcast current payload to all peripherals ------------------------ */
 
 static void csr_broadcast(void) {
+    csr_last_broadcast = k_uptime_get();
     for (int i = 0; i < CSR_MAX_PERIPHERALS; i++) {
         if (!csr_peripherals[i].conn || !csr_peripherals[i].char_handle) {
             continue;
@@ -354,25 +361,32 @@ static int csr_handle_keycode_changed(const zmk_event_t *eh) {
 ZMK_LISTENER(csr_mods, csr_handle_keycode_changed);
 ZMK_SUBSCRIPTION(csr_mods, zmk_keycode_state_changed);
 
-/* Deferred so the check runs after caps word has handled the event */
-static void csr_caps_word_work_cb(struct k_work *work) {
+/* Resend while typing so idle halves see activity from the other half */
+#define CSR_ACTIVITY_HEARTBEAT_MS (CONFIG_ZMK_IDLE_TIMEOUT / 4)
+
+/* Deferred so the check runs after caps word and activity have handled the event */
+static void csr_state_check_work_cb(struct k_work *work) {
     uint8_t flags = csr_update_flags();
-    if (cached_payload.flags != flags) {
+    bool heartbeat_due = (flags & CSR_FLAG_ACTIVE) &&
+                         k_uptime_get() - csr_last_broadcast > CSR_ACTIVITY_HEARTBEAT_MS;
+
+    if (cached_payload.flags != flags || heartbeat_due) {
         cached_payload.flags = flags;
         csr_broadcast();
     }
 }
 
-static K_WORK_DEFINE(csr_caps_word_work, csr_caps_word_work_cb);
+static K_WORK_DEFINE(csr_state_check_work, csr_state_check_work_cb);
 
-static int csr_handle_caps_word_check(const zmk_event_t *eh) {
-    k_work_submit(&csr_caps_word_work);
+static int csr_handle_state_check(const zmk_event_t *eh) {
+    k_work_submit(&csr_state_check_work);
     return ZMK_EV_EVENT_BUBBLE;
 }
 
-ZMK_LISTENER(csr_caps_word, csr_handle_caps_word_check);
-ZMK_SUBSCRIPTION(csr_caps_word, zmk_position_state_changed);
-ZMK_SUBSCRIPTION(csr_caps_word, zmk_keycode_state_changed);
+ZMK_LISTENER(csr_state_check, csr_handle_state_check);
+ZMK_SUBSCRIPTION(csr_state_check, zmk_position_state_changed);
+ZMK_SUBSCRIPTION(csr_state_check, zmk_keycode_state_changed);
+ZMK_SUBSCRIPTION(csr_state_check, zmk_activity_state_changed);
 
 #ifdef CONFIG_CSR_RELAY_WPM
 static int csr_handle_wpm_changed(const zmk_event_t *eh) {
