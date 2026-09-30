@@ -11,6 +11,10 @@
         zmk,physical-layout = &eyelash_sofle_layout;
     };
 
+    central_states_relay {
+        compatible = "zmk,central-states-relay";
+    };
+
     mock_kscan: mock_kscan_0 {
         compatible = "zmk,kscan-mock";
         columns = <0>;

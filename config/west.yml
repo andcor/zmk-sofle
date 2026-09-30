@@ -24,5 +24,8 @@ manifest:
     - name: zmk-helpers
       remote: urob
       revision: main
+    - name: zmk-central-states-relay
+      url: https://github.com/ArtemYurov/zmk-central-states-relay
+      revision: 39e3d8ab15fded008c543618acce7a1724ca0459
   self:
     path: boards

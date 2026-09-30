@@ -27,6 +27,10 @@
         zmk,backlight = &backlight;
     };
 
+    central_states_relay {
+        compatible = "zmk,central-states-relay";
+    };
+
 	left_encoder: encoder_left {
 		compatible = "alps,ec11";
 		label = "LEFT_ENCODER";
